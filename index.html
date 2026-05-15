@@ -15,176 +15,204 @@
         }
 
         body {
-            background: #f7f8fa;
+            background: #f2f5f9;
             display: flex;
             justify-content: center;
-            padding: 15px;
-            color: #333;
+            padding: 20px 15px;
+            color: #2d3748;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 20px;
+            max-width: 520px;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+            padding: 26px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 26px;
         }
         .app-icon {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 10px;
-            background: linear-gradient(135deg, #82d382, #69cf95);
-            border-radius: 14px;
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 12px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
-            box-shadow: 0 4px 10px rgba(105, 207, 149, 0.3);
+            font-size: 28px;
+            box-shadow: 0 6px 14px rgba(79, 172, 254, 0.25);
         }
         .title {
-            font-size: 22px;
-            color: #444;
-            font-weight: 500;
+            font-size: 24px;
+            color: #1a202c;
+            font-weight: 600;
         }
 
         .stats {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 24px;
         }
 
         .stat-card {
             flex: 1;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 18px;
             text-align: center;
             color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .income {
-            background: linear-gradient(135deg, #69cf95, #50b779);
+            background: linear-gradient(135deg, #4facfe, #00c6ff);
         }
 
         .expense {
-            background: linear-gradient(135deg, #ff8a8a, #ff6b6b);
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
         }
 
         .stat-label {
-            font-size: 13px;
+            font-size: 14px;
             opacity: 0.9;
+            margin-bottom: 4px;
         }
 
         .stat-num {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
-            margin-top: 5px;
         }
 
         .filter-group {
             display: flex;
-            gap: 6px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 22px;
             flex-wrap: wrap;
         }
 
         .filter-group select {
             flex: 1;
             min-width: 80px;
-            padding: 8px;
-            border-radius: 10px;
-            border: 1px solid #eee;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
             outline: none;
             font-size: 13px;
+            background: #f8fafc;
+            transition: 0.2s;
+        }
+
+        .filter-group select:focus {
+            border-color: #4facfe;
+            background: #fff;
         }
 
         .form {
-            margin-bottom: 20px;
+            margin-bottom: 26px;
         }
 
         .input-group {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         input, select {
             width: 100%;
-            padding: 11px 12px;
-            border: 1px solid #eee;
-            border-radius: 10px;
+            padding: 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
             font-size: 15px;
             outline: none;
+            background: #f8fafc;
+            transition: 0.2s;
         }
 
         input:focus, select:focus {
-            border-color: #69cf95;
+            border-color: #4facfe;
+            background: #fff;
         }
 
         .btn {
             width: 100%;
-            padding: 12px;
-            background: #69cf95;
+            padding: 15px;
+            background: #4facfe;
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: bold;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 5px;
+            transition: 0.2s;
+            margin-top: 6px;
+            box-shadow: 0 4px 10px rgba(79,172,254,0.2);
         }
 
         .btn:active {
-            background: #50b779;
+            background: #3b8bde;
+        }
+
+        .clear-btn {
+            margin-top: 10px;
+            background: #ff6b6b;
+            box-shadow: 0 4px 10px rgba(255,107,107,0.2);
         }
 
         .list-title {
-            font-size: 15px;
-            margin-bottom: 10px;
-            color: #555;
+            font-size: 16px;
+            margin-bottom: 14px;
+            color: #4a5568;
+            font-weight: 500;
         }
 
         .record-list {
-            max-height: 350px;
+            max-height: 380px;
             overflow-y: auto;
+            padding-right: 4px;
         }
 
         .record-item {
-            padding: 12px 8px;
-            border-bottom: 1px solid #f5f5f5;
+            padding: 16px 10px;
+            border-bottom: 1px solid #f1f5f9;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: 0.2s;
+            border-radius: 10px;
+        }
+
+        .record-item:hover {
+            background: #f8fafc;
         }
 
         .record-left {
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 4px;
         }
 
         .record-cate {
-            font-size: 13px;
-            color: #666;
+            font-size: 15px;
+            color: #2d3748;
+            font-weight: 500;
         }
 
         .record-time {
-            font-size: 11px;
-            color: #aaa;
+            font-size: 12px;
+            color: #718096;
         }
 
         .record-price {
             font-weight: bold;
-            font-size: 15px;
-            margin-right: 8px;
+            font-size: 16px;
+            margin-right: 10px;
         }
 
         .price-income {
-            color: #50b779;
+            color: #4facfe;
         }
 
         .price-expense {
@@ -195,22 +223,17 @@
             background: #ff6b6b;
             color: white;
             border: none;
-            padding: 3px 6px;
-            border-radius: 5px;
-            font-size: 11px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
             cursor: pointer;
         }
 
         .empty {
             text-align: center;
-            padding: 25px 0;
-            color: #ccc;
-            font-size: 13px;
-        }
-
-        .clear-btn {
-            margin-top: 12px;
-            background: #ff6b6b;
+            padding: 40px 0;
+            color: #cbd5e0;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -431,7 +454,6 @@
             return true;
         });
 
-        // 实时计算筛选后的金额
         calcFilteredTotal(filtered);
 
         const list = document.getElementById('recordList');
@@ -456,7 +478,6 @@
         `).join('');
     }
 
-    // 计算筛选后的金额
     function calcFilteredTotal(filteredRecords) {
         let income = 0, expense = 0;
         filteredRecords.forEach(r => {
