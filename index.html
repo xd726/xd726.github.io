@@ -57,11 +57,6 @@
         .stats {
             display: flex;
             gap: 10px;
-            margin-bottom: 10px;
-        }
-        .filter-stats {
-            display: flex;
-            gap: 10px;
             margin-bottom: 20px;
         }
 
@@ -79,9 +74,6 @@
 
         .expense {
             background: linear-gradient(135deg, #ff8a8a, #ff6b6b);
-        }
-        .balance {
-            background: linear-gradient(135deg, #5F98F7, #4A87E8);
         }
 
         .stat-label {
@@ -232,28 +224,12 @@
 
     <div class="stats">
         <div class="stat-card income">
-            <div class="stat-label">总收入</div>
+            <div class="stat-label">筛选收入</div>
             <div class="stat-num" id="totalIncome">0.00</div>
         </div>
         <div class="stat-card expense">
-            <div class="stat-label">总支出</div>
-            <div class="stat-num" id="totalExpense">0.00</div>
-        </div>
-    </div>
-
-    <!-- 筛选后统计 -->
-    <div class="filter-stats">
-        <div class="stat-card income">
-            <div class="stat-label">筛选收入</div>
-            <div class="stat-num" id="filterIncome">0.00</div>
-        </div>
-        <div class="stat-card expense">
             <div class="stat-label">筛选支出</div>
-            <div class="stat-num" id="filterExpense">0.00</div>
-        </div>
-        <div class="stat-card balance">
-            <div class="stat-label">筛选结余</div>
-            <div class="stat-num" id="filterBalance">0.00</div>
+            <div class="stat-num" id="totalExpense">0.00</div>
         </div>
     </div>
 
@@ -409,7 +385,6 @@
         localStorage.setItem('accountRecords', JSON.stringify(records));
         updateFilterOptions();
         renderList();
-        calcTotal();
     }
 
     function updateFilterOptions() {
@@ -456,8 +431,8 @@
             return true;
         });
 
-        // 计算筛选后的统计
-        calcFilterTotal(filtered);
+        // 实时计算筛选后的金额
+        calcFilteredTotal(filtered);
 
         const list = document.getElementById('recordList');
         if(filtered.length === 0) {
@@ -481,29 +456,15 @@
         `).join('');
     }
 
-    // 总统计（所有记录）
-    function calcTotal() {
+    // 计算筛选后的金额
+    function calcFilteredTotal(filteredRecords) {
         let income = 0, expense = 0;
-        records.forEach(r => {
+        filteredRecords.forEach(r => {
             if(r.type === 'income') income += r.amount;
             else expense += r.amount;
         });
         document.getElementById('totalIncome').innerText = income.toFixed(2);
         document.getElementById('totalExpense').innerText = expense.toFixed(2);
-    }
-
-    // 筛选后统计
-    function calcFilterTotal(filtered) {
-        let income = 0, expense = 0;
-        filtered.forEach(r => {
-            if(r.type === 'income') income += r.amount;
-            else expense += r.amount;
-        });
-        let balance = income - expense;
-
-        document.getElementById('filterIncome').innerText = income.toFixed(2);
-        document.getElementById('filterExpense').innerText = expense.toFixed(2);
-        document.getElementById('filterBalance').innerText = balance.toFixed(2);
     }
 
     updateCategory();
