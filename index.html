@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 手机适配核心代码 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>温馨记账本</title>
+    <!-- 苹果手机添加桌面图标 -->
+    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/256/000000/money-bag.png">
+    <link rel="icon" href="https://img.icons8.com/fluency/256/000000/money-bag.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background: #f7f8fa;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 10px;
+            background: linear-gradient(135deg, #82d382, #69cf95);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(105, 207, 149, 0.3);
+        }
+        .title {
+            font-size: 22px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .stats {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+        }
+
+        .income {
+            background: linear-gradient(135deg, #69cf95, #50b779);
+        }
+
+        .expense {
+            background: linear-gradient(135deg, #ff8a8a, #ff6b6b);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .stat-num {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .filter-group select {
+            flex: 1;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .form {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #69cf95;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #69cf95;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .btn:active {
+            background: #50b779;
+        }
+
+        .list-title {
+            font-size: 15px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .record-list {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .record-item {
+            padding: 12px 8px;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .record-left {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .record-cate {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .record-time {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .record-price {
+            font-weight: bold;
+            font-size: 15px;
+            margin-right: 8px;
+        }
+
+        .price-income {
+            color: #50b779;
+        }
+
+        .price-expense {
+            color: #ff6b6b;
+        }
+
+        .del-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px 0;
+            color: #ccc;
+            font-size: 13px;
+        }
+
+        .clear-btn {
+            margin-top: 12px;
+            background: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="app-icon">💰</div>
+        <div class="title">温馨记账本</div>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card income">
+            <div class="stat-label">总收入</div>
+            <div class="stat-num" id="totalIncome">0.00</div>
+        </div>
+        <div class="stat-card expense">
+            <div class="stat-label">总支出</div>
+            <div class="stat-num" id="totalExpense">0.00</div>
+        </div>
+    </div>
+
+    <div class="filter-group">
+        <select id="filterYear">
+            <option value="all">全部年份</option>
+        </select>
+        <select id="filterMonth">
+            <option value="all">全部月份</option>
+        </select>
+        <select id="filterDay">
+            <option value="all">全部日期</option>
+        </select>
+    </div>
+
+    <div class="form">
+        <div class="input-group">
+            <select id="type">
+                <option value="expense">💸 支出</option>
+                <option value="income">💰 收入</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <select id="category">
+                <option value="餐饮">🍔 餐饮</option>
+                <option value="交通">🚗 交通</option>
+                <option value="购物">🛍️ 购物</option>
+                <option value="娱乐">🎮 娱乐</option>
+                <option value="医疗">🏥 医疗</option>
+                <option value="教育">📚 教育</option>
+                <option value="住房">🏠 住房</option>
+                <option value="通讯">📱 通讯</option>
+                <option value="人情">🎁 人情</option>
+                <option value="其他">🧩 其他</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <input type="number" id="amount" placeholder="输入金额" step="0.01">
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="remark" placeholder="备注（可选）">
+        </div>
+
+        <div class="input-group">
+            <input type="datetime-local" id="customTime" placeholder="选择日期时间（可选）">
+        </div>
+
+        <button class="btn" id="addBtn">保存记录</button>
+        <button class="btn clear-btn" id="clearBtn">清空所有记录</button>
+    </div>
+
+    <div class="list-title">📋 筛选结果</div>
+    <div class="record-list" id="recordList">
+        <div class="empty">暂无记录</div>
+    </div>
+</div>
+
+<script>
+    let records = JSON.parse(localStorage.getItem('accountRecords')) || [];
+
+    const typeEl = document.getElementById('type');
+    const cateEl = document.getElementById('category');
+    const filterYear = document.getElementById('filterYear');
+    const filterMonth = document.getElementById('filterMonth');
+    const filterDay = document.getElementById('filterDay');
+
+    typeEl.addEventListener('change', updateCategory);
+    filterYear.addEventListener('change', renderList);
+    filterMonth.addEventListener('change', renderList);
+    filterDay.addEventListener('change', renderList);
+
+    const incomeCates = [
+        {value:'工资', label:'💼 工资'},
+        {value:'奖金', label:'🎁 奖金'},
+        {value:'兼职', label:'🛠️ 兼职'},
+        {value:'理财', label:'📈 理财'},
+        {value:'红包', label:'🧧 红包'},
+        {value:'其他', label:'🧩 其他'}
+    ];
+
+    const expenseCates = [
+        {value:'餐饮', label:'🍔 餐饮'},
+        {value:'交通', label:'🚗 交通'},
+        {value:'购物', label:'🛍️ 购物'},
+        {value:'娱乐', label:'🎮 娱乐'},
+        {value:'医疗', label:'🏥 医疗'},
+        {value:'教育', label:'📚 教育'},
+        {value:'住房', label:'🏠 住房'},
+        {value:'通讯', label:'📱 通讯'},
+        {value:'人情', label:'🎁 人情'},
+        {value:'其他', label:'🧩 其他'}
+    ];
+
+    function updateCategory() {
+        cateEl.innerHTML = '';
+        const list = typeEl.value === 'income' ? incomeCates : expenseCates;
+        list.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.value;
+            opt.textContent = item.label;
+            cateEl.appendChild(opt);
+        });
+    }
+
+    document.getElementById('addBtn').addEventListener('click', addRecord);
+    document.getElementById('clearBtn').addEventListener('click', () => {
+        if(confirm('确定清空所有记录？')) {
+            records = [];
+            saveAndRender();
+        }
+    });
+
+    function addRecord() {
+        const type = typeEl.value;
+        const cate = cateEl.value;
+        const amount = parseFloat(document.getElementById('amount').value);
+        const remark = document.getElementById('remark').value || '无备注';
+        const customTime = document.getElementById('customTime').value;
+
+        if(!amount || amount <= 0) {
+            alert('请输入正确金额');
+            return;
+        }
+
+        let timeObj = customTime ? new Date(customTime) : new Date();
+        let timeStr = timeObj.toLocaleString();
+
+        const record = {
+            id: Date.now(),
+            type, cate, amount, remark,
+            time: timeStr,
+            timestamp: timeObj.getTime(),
+            year: timeObj.getFullYear(),
+            month: timeObj.getMonth() + 1,
+            day: timeObj.getDate()
+        };
+
+        records.unshift(record);
+        saveAndRender();
+
+        document.getElementById('amount').value = '';
+        document.getElementById('remark').value = '';
+        document.getElementById('customTime').value = '';
+    }
+
+    function deleteRecord(id) {
+        if(!confirm('确定删除这条记录？')) return;
+        records = records.filter(item => item.id !== id);
+        saveAndRender();
+    }
+
+    function saveAndRender() {
+        localStorage.setItem('accountRecords', JSON.stringify(records));
+        updateFilterOptions();
+        renderList();
+        calcTotal();
+    }
+
+    function updateFilterOptions() {
+        let years = new Set(), months = new Set(), days = new Set();
+        records.forEach(r => {
+            years.add(r.year);
+            months.add(r.month);
+            days.add(r.day);
+        });
+
+        filterYear.innerHTML = '<option value="all">全部年份</option>';
+        Array.from(years).sort((a,b)=>b-a).forEach(y => {
+            filterYear.innerHTML += `<option value="${y}">${y}年</option>`;
+        });
+
+        filterMonth.innerHTML = '<option value="all">全部月份</option>';
+        Array.from(months).sort((a,b)=>b-a).forEach(m => {
+            filterMonth.innerHTML += `<option value="${m}">${m}月</option>`;
+        });
+
+        filterDay.innerHTML = '<option value="all">全部日期</option>';
+        Array.from(days).sort((a,b)=>b-a).forEach(d => {
+            filterDay.innerHTML += `<option value="${d}">${d}日</option>`;
+        });
+    }
+
+    function renderList() {
+        const fy = filterYear.value;
+        const fm = filterMonth.value;
+        const fd = filterDay.value;
+
+        let filtered = records.filter(r => {
+            if(fy !== 'all' && r.year != fy) return false;
+            if(fm !== 'all' && r.month != fm) return false;
+            if(fd !== 'all' && r.day != fd) return false;
+            return true;
+        });
+
+        const list = document.getElementById('recordList');
+        if(filtered.length === 0) {
+            list.innerHTML = '<div class="empty">暂无记录</div>';
+            return;
+        }
+
+        list.innerHTML = filtered.map(r => `
+            <div class="record-item">
+                <div class="record-left">
+                    <div class="record-cate">${r.type === 'income' ? '+' : '-'} ${r.cate} | ${r.remark}</div>
+                    <div class="record-time">${r.time}</div>
+                </div>
+                <div style="display:flex;align-items:center">
+                    <div class="record-price ${r.type === 'income' ? 'price-income' : 'price-expense'}">
+                        ${r.type === 'income' ? '+' : '-'}${r.amount.toFixed(2)}
+                    </div>
+                    <button class="del-btn" onclick="deleteRecord(${r.id})">删除</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function calcTotal() {
+        let income = 0, expense = 0;
+        records.forEach(r => {
+            if(r.type === 'income') income += r.amount;
+            else expense += r.amount;
+        });
+        document.getElementById('totalIncome').innerText = income.toFixed(2);
+        document.getElementById('totalExpense').innerText = expense.toFixed(2);
+    }
+
+    updateCategory();
+    saveAndRender();
+</script>
+</body>
+</html>
