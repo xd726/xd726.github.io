@@ -303,12 +303,6 @@ body {
 <div class="glow g2"></div>
 
 <div class="wrap" style="padding-top:20px;padding-bottom:90px">
-    
-<!-- 普通浏览器标签页图标 -->
-<link rel="icon" href="book-logo.ico" type="image/x-icon">
-
-<!-- 苹果添加到桌面专用图标（必须加） -->
-<link rel="apple-touch-icon" href="book-logo.png?v=2">
 
     <!-- 顶部 -->
     <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
@@ -1177,6 +1171,15 @@ function refresh() {
     }
 }
 
+/* ===== 设置网站图标 ===== */
+(function() {
+    var link = document.createElement('link');
+    link.rel = 'icon';
+    link.type = 'image/png';
+    link.href = 'book-logo.png';
+    document.head.appendChild(link);
+})();
+
 /* ===== 键盘快捷键 ===== */
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
@@ -1193,4 +1196,3 @@ refresh();
 </script>
 </body>
 </html>
-
