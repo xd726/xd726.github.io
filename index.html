@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>生活记账</title>
+<title>哩狸记账</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
@@ -303,8 +303,12 @@ body {
 <div class="glow g2"></div>
 
 <div class="wrap" style="padding-top:20px;padding-bottom:90px">
-<!-- 直接在这里加上这一行即可 -->
-    <link rel="icon" href="book-logo.ico" type="image/x-icon">
+    
+<!-- 普通浏览器标签页图标 -->
+<link rel="icon" href="book-logo.ico" type="image/x-icon">
+
+<!-- 苹果添加到桌面专用图标（必须加） -->
+<link rel="apple-touch-icon" href="book-logo.png?v=2">
 
     <!-- 顶部 -->
     <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
@@ -1172,15 +1176,6 @@ function refresh() {
         renderStats();
     }
 }
-
-/* ===== 设置网站图标 ===== */
-(function() {
-    var link = document.querySelector("link[rel~='icon']") || document.createElement('link');
-    link.type = 'image/x-icon';
-    link.rel = 'icon';
-    link.href = 'book-logo.ico';
-    document.head.appendChild(link);
-})();
 
 /* ===== 键盘快捷键 ===== */
 document.addEventListener('keydown', function(e) {
